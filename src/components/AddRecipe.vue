@@ -6,13 +6,13 @@
             <input type="text" v-model="recipeName" placeholder="Add new recipe">
             <button @click="addRecipe">Add Recipe</button>
         </form>
-        <ul>
+        <ol>
             <li v-for="(recipe, index) in recipes" :key="index">
                 {{ recipe.recipeName }}
                 <button @click="toggleEdit(recipe, index)">Edit</button>
                 <button @click="clearOne(index)">Delete</button>
             </li>
-        </ul>
+        </ol>
     </div>
 
     <div id="edit" v-if="isEditing" style="display: flex; flex-direction: column;">
@@ -21,14 +21,13 @@
         <textarea name="" id="" cols="50" rows="10" v-model="editRecipe.recipeDescription">
         </textarea>
         <h2>Ingredients</h2>
-        <ul>
+        <ol>
             <li v-for="(ingredient, index) of editRecipe.recipeIngredients" :key="index" >
                 {{ ingredient }}<button @click="clearOneIngredient(index)">Delete</button>
 
             </li>
-        </ul>
+        </ol>
         <form @submit.prevent action="submit">
-            {{ newRecipeIngredient }}
             <input type="text" v-model="newRecipeIngredient" placeholder="Add new ingredient">
             <button type="button" @click="addIngredient()">Add Ingredient</button>
         </form>
@@ -53,8 +52,8 @@ export default{
             uuid: 0,
             recipeIngredients: [
                 "boeuf",
-                "pizza",
-                "tomate",
+                "vin",
+                "machette haitienne",
             ],
         }],
 
