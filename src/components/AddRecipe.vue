@@ -15,23 +15,25 @@
         </ul>
     </div>
 
-    <div id="edit" v-if="isEditing">
+    <div id="edit" v-if="isEditing" style="display: flex; flex-direction: column;">
         <h1>Edit your recipe</h1>
         <input v-model="editRecipe.recipeName">
         <textarea name="" id="" cols="50" rows="10" v-model="editRecipe.recipeDescription">
         </textarea>
+        <h2>Ingredients</h2>
         <ul>
-            <li v-for="ingredient in editRecipe.recipeIngredients" >
-                <p>{{ ingredient.name }}</p>
-                <button>Delete</button>
+            <li v-for="(ingredient, index) of editRecipe.recipeIngredients" :key="index" >
+                {{ ingredient }}<button @click="clearOneIngredient(index)">Delete</button>
+
             </li>
         </ul>
         <form @submit.prevent action="submit">
-            <input type="text" v-model="recipeIngredients" placeholder="Add new ingredient">
-            <button @click="addIngredient(recipe)">Add Ingredient</button>
+            {{ newRecipeIngredient }}
+            <input type="text" v-model="newRecipeIngredient" placeholder="Add new ingredient">
+            <button type="button" @click="addIngredient()">Add Ingredient</button>
         </form>
         <button @click="saveEdit()">Save</button>
-        <button @click="">Add to shopping list</button>
+        <!-- <button @click="">Add to shopping list</button> -->
 
     </div>
     
@@ -44,21 +46,23 @@ export default{
     
   data () {
     return {
+        newRecipeIngredient: '',
         recipes: [{
             recipeName: 'boeuf bourguignon',
             recipeDescription: 'pour 4',
             uuid: 0,
-            recipeIngredients: [{
-                name: 'boeuf',
-                uuid: 0
-            }],
+            recipeIngredients: [
+                "boeuf",
+                "pizza",
+                "tomate",
+            ],
         }],
 
         editRecipe: {
             recipeName: 'edition',
             recipeDescription: 'edition',
             uuid: 0,
-            recipeIngredients: ["edition"],
+            recipeIngredients: ['edition'],
         },
 
 
@@ -84,6 +88,9 @@ export default{
         this.recipes.splice(index, 1)
     },
 
+    clearOneIngredient(index){
+        this.editRecipe.recipeIngredients.splice(index, 1)
+    },
 
     toggleEdit(recipe, index){
         this.isEditing = true;
@@ -93,9 +100,9 @@ export default{
         console.log(recipe.uuid) 
     },
 
-    // addIngredient(recipe){
-    //     console.log(this.recipes[recipe.uuid])
-    // }
+    addIngredient(){
+        this.editRecipe.recipeIngredients.push(this.newRecipeIngredient)
+    },
     
     saveEdit(){
         this.recipes.push(this.editRecipe)
