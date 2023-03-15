@@ -1,11 +1,14 @@
 <template>
-    <h1>Recipe Book</h1>
-    <div id="app">
 
-        <form @submit.prevent action="submit">
-            <input type="text" v-model="recipeName" placeholder="Add new recipe">
-            <button @click="addRecipe">Add Recipe</button>
-        </form>
+<!-- bloc input pour ajouter de nouvelles recettes de façon sommaire -->
+    <div id="app">
+            <h1>Recipe Book</h1>
+
+            <form @submit.prevent action="submit">
+                <input type="text" v-model="recipeName" placeholder="Add new recipe">
+                <button @click="addRecipe">Add Recipe</button>
+            </form>
+
         <ol>
             <li v-for="(recipe, index) in recipes" :key="index">
                 {{ recipe.recipeName }}
@@ -13,29 +16,32 @@
                 <button @click="clearOne(index)">Delete</button>
             </li>
         </ol>
+
     </div>
+
+
+<!-- bloc edition qui est affiché au clic de bouton edit -->
 
     <div id="edit" v-if="isEditing" style="display: flex; flex-direction: column;">
         <h1>Edit your recipe</h1>
+
         <input v-model="editRecipe.recipeName">
-        <textarea name="" id="" cols="50" rows="10" v-model="editRecipe.recipeDescription">
-        </textarea>
+        <textarea name="" id="" cols="50" rows="10" v-model="editRecipe.recipeDescription"></textarea>
+        
         <h2>Ingredients</h2>
         <ol>
             <li v-for="(ingredient, index) of editRecipe.recipeIngredients" :key="index" >
                 {{ ingredient }}<button @click="clearOneIngredient(index)">Delete</button>
-
             </li>
         </ol>
+
         <form @submit.prevent action="submit">
             <input type="text" v-model="newRecipeIngredient" placeholder="Add new ingredient">
             <button type="button" @click="addIngredient()">Add Ingredient</button>
         </form>
-        <button @click="saveEdit()">Save</button>
-        <!-- <button @click="">Add to shopping list</button> -->
 
+        <button @click="saveEdit()">Save</button>
     </div>
-    
 </template>
 
 <script>
@@ -72,6 +78,9 @@ export default{
         isEditing: false,
     }
   },
+
+//   fonction qui sont utilisées dans la page
+
   methods: {
     addRecipe() {
       this.recipes.push({
